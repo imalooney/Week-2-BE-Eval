@@ -56,7 +56,7 @@ describe Tennis::Game do
     end
 
     context 'when score is advantage for player1' do
-      it 'calls out advatange' do
+      it 'calls out advantage' do
         3.times { game.wins_ball(game.player1) }
         4.times { game.wins_ball(game.player2) }
 
@@ -71,7 +71,24 @@ describe Tennis::Game do
 
         expect(game.umpire_call).to eq("The score is advantage")
       end
-    end       
+    end
+
+    context 'when player1 wins' do
+      it 'calls out player1 has won' do
+        6.times { game.wins_ball(game.player1) }
+        4.times { game.wins_ball(game.player2) }
+
+        expect(game.umpire_call).to eq("Player 1 has won")   
+      end
+    end 
+
+    context 'when player2 wins and player1 has no points' do
+      it 'calls out player2 has won' do
+        4.times { game.wins_ball(game.player2) }
+
+        expect(game.umpire_call).to eq("Player 2 has won")
+      end
+    end
   end
 end
 
