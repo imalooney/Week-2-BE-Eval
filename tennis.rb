@@ -16,10 +16,16 @@ module Tennis
     #
     # Returns the score of the winning player. 
     def wins_ball(winner)
-      winner = @player
-      winner.record_won_ball
-      # TODO: Think it's gross to pass an integer instead of a player object?
-      # Then reimplement this method!
+      winner.record_won_ball!
+    end
+
+    # Announces current score with player1 serving
+    def umpire_call
+      if @player1.points == 3 && @player2.points == 3
+        "The score is deuce"
+      else
+        "The score is " + "#{player1.score}" + "-" + "#{player2.score}"
+      end
     end
   end
 

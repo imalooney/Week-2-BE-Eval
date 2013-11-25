@@ -1,6 +1,9 @@
 require 'rubygems'
+require 'pry'
 require 'bundler/setup'
 require 'rspec'
+
+
 require_relative '../tennis'
 
 describe Tennis::Game do
@@ -12,14 +15,44 @@ describe Tennis::Game do
       expect(game.player2).to be_a(Tennis::Player)
     end
 
-    it 'sets the opponent for each player'
+    it 'sets the opponent for each player' do
+      expect(game.player1.opponent).to eq(game.player2)
+      expect(game.player2.opponent).to eq(game.player1)
+    end
   end
 
   describe '#wins_ball' do
     it 'increments the points of the winning player' do
-      game.wins_ball(1)
+      game.wins_ball(game.player1)
 
       expect(game.player1.points).to eq(1)
+
+      game.wins_ball(game.player2)
+
+      expect(game.player2.points).to eq(1)
+
+      game.wins_ball(game.player1)
+
+      expect(game.player1.points).to eq(2)
+    end
+  end
+
+  describe '#umpire_call' do
+    context 'when score is forty-love' do
+      it "reads out forty-love" do
+        3.times { game.wins_ball(game.player1) }
+
+        expect(game.umpire_call).to eq("The score is forty-love")
+      end
+    end
+
+    context 'when score is deuce' do
+      it 'reads out deuce' do
+        3.times { game.wins_ball(game.player1) }
+        3.times { game.wins_ball(game.player2) }
+
+        expect(game.umpire_call).to eq("The score is deuce")
+      end
     end
   end
 end
@@ -62,11 +95,19 @@ describe Tennis::Player do
     end
     
     context 'when points is 2' do
-      it 'returns thirty'  
+      it 'returns thirty'  do
+        player.points = 2
+
+        expect(player.score).to eq('thirty')
+      end
     end
     
     context 'when points is 3' do
-      it 'returns forty' 
+      it 'returns forty' do
+        player.points = 3
+
+        expect(player.score).to eq('forty')
+      end
     end
   end
 end
