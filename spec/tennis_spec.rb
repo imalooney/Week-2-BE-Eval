@@ -39,7 +39,7 @@ describe Tennis::Game do
 
   describe '#umpire_call' do
     context 'when score is forty-love' do
-      it "reads out forty-love" do
+      it "calls out forty-love" do
         3.times { game.wins_ball(game.player1) }
 
         expect(game.umpire_call).to eq("The score is forty-love")
@@ -47,13 +47,31 @@ describe Tennis::Game do
     end
 
     context 'when score is deuce' do
-      it 'reads out deuce' do
+      it 'calls out deuce' do
         3.times { game.wins_ball(game.player1) }
         3.times { game.wins_ball(game.player2) }
 
         expect(game.umpire_call).to eq("The score is deuce")
       end
     end
+
+    context 'when score is advantage for player1' do
+      it 'calls out advatange' do
+        3.times { game.wins_ball(game.player1) }
+        4.times { game.wins_ball(game.player2) }
+
+        expect(game.umpire_call).to eq("The score is advantage")
+      end
+    end
+
+    context 'when score is advantage for player2' do
+      it 'calls out advantage' do
+        3.times { game.wins_ball(game.player2) }
+        4.times { game.wins_ball(game.player1) }
+
+        expect(game.umpire_call).to eq("The score is advantage")
+      end
+    end       
   end
 end
 
