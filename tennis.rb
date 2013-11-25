@@ -21,7 +21,11 @@ module Tennis
 
     # Announces current score with player1 serving
     def umpire_call
-      if @player1.points == 3 && @player2.points == 3
+      if (@player1.points >= 3 && @player2.points >= (@player1.points + 1))
+        "The score is advantage"
+      elsif (@player2.points >= 3 && @player1.points >= (@player2.points + 1))
+        "The score is advantage"     
+      elsif @player1.points == 3 && @player2.points == 3
         "The score is deuce"
       else
         "The score is " + "#{player1.score}" + "-" + "#{player2.score}"
